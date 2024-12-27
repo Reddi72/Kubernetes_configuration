@@ -96,8 +96,8 @@ This document outlines the steps to set up a Kubernetes cluster with 1 master no
    ``` bash
    sudo apt install -y nfs-common
 2. Create a PersistentVolume (PV) and PersistentVolumeClaim (PVC) for NFS storage:
-   ``` bash
-   apiVersion: v1
+``` bash
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: nfs-pv
@@ -120,6 +120,7 @@ spec:
   resources:
     requests:
       storage: 10Gi
+```
 3. Apply the YAML configuration:
  ``` bash
 kubectl apply -f nfs-pv-pvc.yaml
@@ -161,21 +162,22 @@ spec:
       resources:
         requests:
           storage: 5Gi
+```
 2. Apply the StatefulSet configuration:
 ``` bash
 kubectl apply -f mariadb-galera.yaml
 ```
 ## Step 8: Verify Deployment
-Check the status of the Pods:
-``` bash
-kubectl get pods -o wide
+1. Check the status of the Pods:
+   ``` bash
+   kubectl get pods -o wide
 2. Verify MariaDB is running:
-``` bash
-kubectl exec -it <mariadb-pod> -- mysql -u root -p
+   ``` bash
+   kubectl exec -it <mariadb-pod> -- mysql -u root -p
 3. Verify the NFS-mounted storage in a Pod:
-``` bash
-kubectl exec -it <pod-using-nfs-pvc> -- df -h
-```
+   ``` bash
+   kubectl exec -it <mariadb-pod> -- mysql -u root -p
+   ```
 ## Step 9: Conclusion
 - You have successfully set up a Kubernetes cluster with a Master and Worker Nodes.
 - MariaDB with Galera is deployed for database clustering.
