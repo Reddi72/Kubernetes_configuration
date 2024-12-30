@@ -64,9 +64,15 @@ This document outlines the steps to set up a Kubernetes cluster with 1 master no
    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
    sudo chown $(id -u):$(id -g) $HOME/.kube/config
    export KUBECONFIG=/path/to/cluster-config
-3. Install Flannel network plugin (run only on master node):
+3. Install Flannel network plugin (run only on master node) or Install Calico network plugin
+   - Flannel
    ``` bash
    kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+   ```
+   - Calico
+   ``` bash
+   kubectl apply -f https://docs.projectcalico.org/v3.25/manifests/calico.yaml
+
 ## Step 4: Join Worker Nodes to the Cluster
 1. Use the kubeadm join command provided by the kubeadm init output on the master node.
     ``` bash
@@ -182,6 +188,52 @@ kubectl apply -f mariadb-galera.yaml
 - You have successfully set up a Kubernetes cluster with a Master and Worker Nodes.
 - MariaDB with Galera is deployed for database clustering.
 - NFS is configured as persistent storage for Kubernetes.
+## Usefull Commands.
+``` bash
+ kubectl cluster info
+```
+``` bash
+kubectl get nodes
+```
+``` bash
+kubectl get pods --all-namespaces
+```
+``` bash
+kubectl get pv
+```
+``` bash
+kubectl get pvc
+```
+``` bash
+kubectl get pods
+```
+``` bash
+kubectl describe pod <pod name>
+```
+``` bash
+kubectl exec -it <mariadb-pod-name> -- mysql -u root -p
+```
+``` bash
+kubectl exec -it <mariadb-pod-name> -- df -h
+```
+``` bash
+kubectl exec -it <mariadb-pod-name> -- ls -l /var/lib/mysql
+```
+``` bash
+kubectl logs <pod-name>
+```
+``` bash
+kubectl get pods -n kube-system | grep calico
+```
+``` bash
+kubectl exec -it <pod-name> -- ping <other-pod-IP>
+```
+``` bash
+kubectl scale deployment <deployment-name> --replicas=5
+```
+``` bash
+kubectl autoscale deployment <deployment-name> --cpu-percent=70 --min=2 --max=10
+```
 
 
 
